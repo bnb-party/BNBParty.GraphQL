@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{D86C26BB-C26B-4B60-BB60-E25901C9E5A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{DB50C449-D77B-4409-B1F6-EF79F4361963}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BNBParty.CodeGen", "BNBParty.CodeGen", "{0DB2C4FE-BE6A-4340-86A7-68316A6D4815}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BNBParty.CodeGen", "src\BNBParty.CodeGen\BNBParty.CodeGen.csproj", "{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0DB2C4FE-BE6A-4340-86A7-68316A6D4815} = {D86C26BB-C26B-4B60-BB60-E25901C9E5A2}
+		{1D917B82-1634-4A65-BE4E-4D5E33B0C7E7} = {0DB2C4FE-BE6A-4340-86A7-68316A6D4815}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAC2665A-0049-4F73-8D43-DDB2C44861C9}
+	EndGlobalSection
+EndGlobal

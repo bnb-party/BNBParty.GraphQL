@@ -1,0 +1,16 @@
+schema:
+  - "https://api.bnbparty.com/graphql":
+      headers:
+        Authorization: "${GRAPHQL_API_KEY}"
+documents: "src/BNBParty.CodeGen/Queries/*.graphql"
+generates:
+  ./src/BNBParty.CodeGen/Generated/GraphQL.cs:
+    plugins:
+      - "c-sharp"
+    config:
+      namespaceName: BNBParty.CodeGen.Generated
+      scalars:
+        any: long
+  ./src/BNBParty.CodeGen/Queries/GraphQL.graphql:
+    plugins:
+      - "schema-ast"
