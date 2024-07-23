@@ -2,5 +2,10 @@
 
 public class MyAddressResponse
 {
-    public string myAddress { get; set; }
+    public Data data { get; set; }
+
+    public class Data
+    {
+        public string myAddress { get; set; }
+    }
 }

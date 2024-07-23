@@ -9,8 +9,8 @@ public class Program
         var currentDirectory = Directory.GetCurrentDirectory();
         var projectRoot = Directory.GetParent(currentDirectory)?.Parent?.Parent?.Parent?.FullName;
 
-        var sourceFilePath = Path.Combine(projectRoot!, "GraphQLCodeGen", "Generated", "GraphQL.cs").Replace("\\", "/");
-        var outputDirectory = Path.Combine(projectRoot!, "GraphQLCodeGen", "Generated").Replace("\\", "/");
+        var sourceFilePath = Path.Combine(projectRoot!, "src", "BNBParty.GraphQLCodeGen", "Generated", "GraphQL.cs").Replace("\\", "/");
+        var outputDirectory = Path.Combine(projectRoot!, "src", "BNBParty.GraphQLCodeGen", "Generated").Replace("\\", "/");
 
         var gen = new GraphQlCodeGenerator();
         gen.GenerateGraphQlCode(projectRoot!, sourceFilePath, outputDirectory);

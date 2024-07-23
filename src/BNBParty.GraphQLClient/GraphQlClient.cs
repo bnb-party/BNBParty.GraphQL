@@ -1,5 +1,6 @@
 ﻿using BNBParty.GraphQLClient.Responses;
 using Flurl.Http;
+using Newtonsoft.Json;
 using static BNBParty.CodeGen.Generated.Types;
 
 namespace BNBParty.GraphQLClient
@@ -15,7 +16,7 @@ namespace BNBParty.GraphQLClient
             _apiKey = apiKey;
         }
 
-        public async Task<TResponse> QueryAsync<TResponse>(string query, object variables)
+        public async Task<TResponse> QueryAsync<TResponse>(string query, object? variables)
         {
             var requestContent = new
             {
@@ -23,12 +24,26 @@ namespace BNBParty.GraphQLClient
                 variables
             };
 
-            var response = await _endpoint
-                .WithOAuthBearerToken(_apiKey)
-                .PostJsonAsync(requestContent)
-                .ReceiveJson<TResponse>();
+            try
+            {
+                var response = await _endpoint
+                    .WithOAuthBearerToken(_apiKey)
+                    .PostJsonAsync(requestContent)
+                    .ReceiveString();
 
-            return response;
+                var deserializedResponse = JsonConvert.DeserializeObject<TResponse>(response);
+
+                return deserializedResponse!;
+            }
+            catch (FlurlHttpException ex)
+            {
+                var error = await ex.GetResponseStringAsync();
+                throw new Exception($"Request failed with status code {ex.StatusCode}: {error}");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}");
+            }
         }
 
         public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
@@ -38,35 +53,39 @@ namespace BNBParty.GraphQLClient
               getToken(tokenId: $tokenId) {
                 tokenId
                 tokenAddress
+                chainId
                 makerAddress
+                flpAddress
+                creationTransaction
                 createdAt
+                Block
                 offChainData {
                   content
                   icon
-                  likeCounter
-                  Discord
-                  Telegram
                   Website
                   X
+                  Discord
+                  Telegram
+                  likeCounter
                 }
               }
             }";
 
-            var variables = new { tokenId = tokenId };
+            var variables = new { tokenId };
             return await QueryAsync<GetTokenResponse>(query, variables);
         }
 
-        public async Task<InsertTokenResponse> InsertTokenAsync(NewToken newToken)
+        public async Task<InsertTokenResponse> InsertTokenAsync(long chainId, string txHash)
         {
             var mutation = @"
-            mutation InsertToken($tokenId: Int!, $isNew: Boolean!) {
-              insertToken(tokenId: $tokenId, isNew: $isNew) {
-                tokenId
-                isNew
-              }
+                mutation InsertToken($chainId: Long!, $txHash: String!) {
+                insertToken(chainID: $chainId, txHash: $txHash) {
+                    tokenId
+                    isNew
+                }
             }";
 
-            var variables = new { tokenId = newToken.tokenId, isNew = newToken.isNew };
+            var variables = new { chainId, txHash };
             return await QueryAsync<InsertTokenResponse>(mutation, variables);
         }
 
@@ -77,19 +96,18 @@ namespace BNBParty.GraphQLClient
               generateAuth(sign: $sign, message: $message)
             }";
 
-            var variables = new { sign = sign, message = message };
+            var variables = new { sign, message };
             var response = await QueryAsync<GenerateAuthResponse>(mutation, variables);
 
-            // Проверка myAddress
             var query = @"
             query {
               myAddress
             }";
 
             var addressResponse = await QueryAsync<MyAddressResponse>(query, null);
-            if (addressResponse.myAddress == "0x0000000000000000000000000000000000000000")
+            if (addressResponse.data.myAddress == "0x0000000000000000000000000000000000000000")
             {
-                throw new Exception("Login failed, address is zero.");
+                Console.WriteLine("Login failed, address is zero.");
             }
 
             return response;

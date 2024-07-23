@@ -1,6 +1,13 @@
-﻿namespace BNBParty.GraphQLClient.Responses;
+﻿using static BNBParty.CodeGen.Generated.Types;
+
+namespace BNBParty.GraphQLClient.Responses;
 
 public class GenerateAuthResponse
 {
-    public string generateAuth { get; set; }
+    public Data data { get; set; }
+
+    public class Data
+    {
+        public string generateAuth { get; set; }
+    }
 }
