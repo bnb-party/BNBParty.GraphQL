@@ -1,4 +1,6 @@
-﻿using BNBParty.GraphQLClient.Responses;
+﻿using System;
+using System.Threading.Tasks;
+using BNBParty.GraphQLClient.Responses;
 using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -72,9 +74,31 @@ namespace BNBParty.GraphQLClient
             return true;
         }
 
-        public void Logout()
+        public async Task<bool> LogoutAsync(string sign)
         {
-            _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
+            var mutation = @"
+            mutation DeleteAuth($sign: String!) {
+                deleteAuth(sign: $sign)
+            }";
+
+            var variables = new
+            {
+                sign
+            };
+
+            var response = await QueryAsync<DeleteAuthResponse>(mutation, variables);
+
+            if (response.data.deleteAuth)
+            {
+                _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
+                Console.WriteLine("Logged out successfully.");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Logout failed.");
+                return false;
+            }
         }
 
         public async Task<GetTokenResponse> GetTokenAsync(int tokenId)

@@ -7,25 +7,17 @@ BNBParty.GraphQL is a library for interacting with BNBParty.GraphQL project's Gr
 Clone the repository:
 
 ```
-git clone https://github.com/The-Poolz/BNBParty.GraphQL.git
-cd src/BNBParty.GraphQLClient
+dotnet add package BNBParty.GraphQLClient
 ```
 
 # Usage
 
-1. Adding the Library
-   Add a reference to the library in your project:
-
-   ```
-   dotnet add reference ../BNBParty.GraphQL
-   ```
-
-2. Add necessary packages:
+1. Add necessary packages:
    ```
    dotnet add package Flurl.Http
    dotnet add package Newtonsoft.Json
    ```
-
+2. Create a new instance of the GraphQlClient class with the endpoint.
 # Example Usage
 
 Here is a basic example of how to use the library to perform queries to the GraphQL server:
@@ -86,10 +78,31 @@ namespace GraphQLClient.Test
                 var updateTokenContentResponse = await client.UpdateTokenContentAsync(tokenToUpdate);
                 Console.WriteLine($"Updated Token ID: {updateTokenContentResponse.data.updateTokenContent.tokenId}");
                 Console.WriteLine($"Updated Content: {updateTokenContentResponse.data.updateTokenContent.offChainData.content}");
+             // Example of Login mutation
+                var loginResponse = await client.LoginAsync("someSign", "someMessage");
+                if (loginResponse)
+                {
+                     Console.WriteLine("Login successful");
+                }
+                else
+                {
+                     Console.WriteLine("Login failed");
+                }
+
+                // Example of Logout mutation
+                var logoutResponse = await client.LogoutAsync("someSign");
+                if (logoutResponse)
+                {
+                     Console.WriteLine("Logout successful");
+                }
+                else
+                {
+                     Console.WriteLine("Logout failed");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error: {ex.Message}");
+                 Console.WriteLine($"Error: {ex.Message}");
             }
         }
     }
@@ -124,4 +137,20 @@ Mutation to update the content of a token.
 
 ```
 public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(Token token);
+```
+
+LoginAsync
+Mutation to login and generate an authorization token.
+
+
+```
+public async Task<bool> LoginAsync(string sign, string message);
+```
+
+LogoutAsync
+Mutation to logout and delete the authorization token.
+
+
+```
+public async Task<bool> LogoutAsync(string sign);
 ```
