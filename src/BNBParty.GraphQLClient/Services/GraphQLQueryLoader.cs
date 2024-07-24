@@ -20,7 +20,7 @@ public static class GraphQlQueryLoader
     public static string LoadMutation(string mutationFileName)
     {
         var assembly = typeof(BNBParty.CodeGen.Generated.Types.Mutation).Assembly;
-        var resourceName = $"BNBParty.CodeGen.Mutations.{mutationFileName}";
+        var resourceName = $"BNBParty.CodeGen.Queries.{mutationFileName}";
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
