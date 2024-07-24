@@ -14,7 +14,7 @@ namespace BNBParty.GraphQLClient
         public GraphQlClient(string endpoint)
         {
             _endpoint = endpoint;
-            _authKey = string.Empty;
+            _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
         }
 
         public async Task<TResponse> QueryAsync<TResponse>(string query, object? variables)
@@ -74,7 +74,7 @@ namespace BNBParty.GraphQLClient
 
         public void Logout()
         {
-            _authKey = string.Empty;
+            _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
         }
 
         public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
