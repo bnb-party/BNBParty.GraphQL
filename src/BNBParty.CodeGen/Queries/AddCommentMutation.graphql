@@ -1,0 +1,11 @@
+mutation AddComment($content: String!, $icon: String, $tokenId: Int!) {
+  addComment(content: $content, icon: $icon, tokenId: $tokenId) {
+    commentId
+    content
+    createdAt
+    icon
+    likeCounter
+    tokenId
+    userAddress
+  }
+}

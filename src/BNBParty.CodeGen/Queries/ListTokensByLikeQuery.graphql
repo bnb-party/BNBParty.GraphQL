@@ -1,0 +1,21 @@
+query ListTokensByLike($limit: Int!, $page: Int!) {
+  listTokensByLike(limit: $limit, page: $page) {
+    tokenId
+    tokenAddress
+    chainId
+    makerAddress
+    flpAddress
+    creationTransaction
+    createdAt
+    Block
+    offChainData {
+      content
+      icon
+      Website
+      X
+      Discord
+      Telegram
+      likeCounter
+    }
+  }
+}

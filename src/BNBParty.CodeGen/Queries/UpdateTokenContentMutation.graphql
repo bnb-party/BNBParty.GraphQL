@@ -1,0 +1,14 @@
+mutation UpdateTokenContent($tokenId: Int!, $offChainData: OffChainDataInput!) {
+  updateTokenContent(tokenId: $tokenId, offChainData: $offChainData) {
+    tokenId
+    offChainData {
+      content
+      icon
+      likeCounter
+      Discord
+      Telegram
+      Website
+      X
+    }
+  }
+}

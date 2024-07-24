@@ -1,0 +1,14 @@
+query GetComment($limit: Int!, $page: Int!, $tokenId: Int!) {
+  getComment(limit: $limit, page: $page, tokenId: $tokenId) {
+    commentsCount
+    items {
+      commentId
+      content
+      createdAt
+      icon
+      likeCounter
+      tokenId
+      userAddress
+    }
+  }
+}

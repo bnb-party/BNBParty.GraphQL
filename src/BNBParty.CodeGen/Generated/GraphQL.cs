@@ -73,10 +73,10 @@ namespace BNBParty.CodeGen.Generated {
       /// only makerAddress of the token
       /// </summary>
       [JsonProperty("likeComment")]
-      public int likeComment { get; set; }
+      public Comment likeComment { get; set; }
     
       [JsonProperty("likeToken")]
-      public int likeToken { get; set; }
+      public Token likeToken { get; set; }
     
       /// <summary>
       /// public for bot, still validate TX and not exist
@@ -205,11 +205,11 @@ namespace BNBParty.CodeGen.Generated {
       /// <summary>
       /// both for createToken and insertToken
       /// </summary>
-      [JsonProperty("likeComment")]
-      public int? likeComment { get; set; }
+      [JsonProperty("likedComment")]
+      public Comment likedComment { get; set; }
     
-      [JsonProperty("likeToken")]
-      public int? likeToken { get; set; }
+      [JsonProperty("likedToken")]
+      public Token likedToken { get; set; }
     
       /// <summary>
       /// used only on updateTokenContent
