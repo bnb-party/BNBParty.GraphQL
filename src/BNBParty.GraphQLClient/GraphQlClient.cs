@@ -1,4 +1,5 @@
 ﻿using BNBParty.GraphQLClient.Responses;
+using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using static BNBParty.CodeGen.Generated.Types;
@@ -8,12 +9,12 @@ namespace BNBParty.GraphQLClient
     public class GraphQlClient
     {
         private readonly string _endpoint;
-        private readonly string _apiKey;
+        private string _authKey;
 
-        public GraphQlClient(string endpoint, string apiKey)
+        public GraphQlClient(string endpoint)
         {
             _endpoint = endpoint;
-            _apiKey = apiKey;
+            _authKey = string.Empty;
         }
 
         public async Task<TResponse> QueryAsync<TResponse>(string query, object? variables)
@@ -27,7 +28,7 @@ namespace BNBParty.GraphQLClient
             try
             {
                 var response = await _endpoint
-                    .WithOAuthBearerToken(_apiKey)
+                    .WithOAuthBearerToken(_authKey)
                     .PostJsonAsync(requestContent)
                     .ReceiveString();
 
@@ -44,6 +45,36 @@ namespace BNBParty.GraphQLClient
             {
                 throw new Exception($"An error occurred: {ex.Message}");
             }
+        }
+
+        public async Task<bool> LoginAsync(string sign, string message)
+        {
+            var mutation = @"
+            mutation GenerateAuth($sign: String!, $message: String!) {
+                generateAuth(sign: $sign, message: $message)
+            }";
+
+            var variables = new
+            {
+                sign,
+                message
+            };
+
+            var authResponse = await QueryAsync<GenerateAuthResponse>(mutation, variables);
+
+            if (authResponse.data.generateAuth != sign)
+            {
+                Console.WriteLine("Login failed, address is zero.");
+                return false;
+            }
+
+            _authKey = authResponse.data.generateAuth;
+            return true;
+        }
+
+        public void Logout()
+        {
+            _authKey = string.Empty;
         }
 
         public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
@@ -105,7 +136,7 @@ namespace BNBParty.GraphQLClient
             }";
 
             var addressResponse = await QueryAsync<MyAddressResponse>(query, null);
-            if (addressResponse.data.myAddress == "0x0000000000000000000000000000000000000000")
+            if (addressResponse.data.myAddress == Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress)
             {
                 Console.WriteLine("Login failed, address is zero.");
             }
