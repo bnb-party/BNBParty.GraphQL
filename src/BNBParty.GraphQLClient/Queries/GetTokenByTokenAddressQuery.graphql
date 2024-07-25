@@ -1,0 +1,21 @@
+query GetTokenByTokenAddress($chainId: Long!, $tokenAddress: String!) {
+  getTokenByTokenAddress(chainId: $chainId, tokenAddress: $tokenAddress) {
+    tokenId
+    tokenAddress
+    chainId
+    makerAddress
+    flpAddress
+    creationTransaction
+    createdAt
+    Block
+    offChainData {
+      content
+      icon
+      Website
+      X
+      Discord
+      Telegram
+      likeCounter
+    }
+  }
+}

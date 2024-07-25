@@ -1,0 +1,6 @@
+query GetTokenHolders($chainId: Long!, $tokenAddress: String!) {
+  getTokenHolders(chainId: $chainId, tokenAddress: $tokenAddress) {
+    address
+    bigIntAmount
+  }
+}

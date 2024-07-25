@@ -1,0 +1,3 @@
+mutation LikeToken($tokenId: Int!) {
+  likeToken(tokenId: $tokenId)
+}

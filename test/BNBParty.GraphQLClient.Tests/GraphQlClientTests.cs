@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Flurl.Http.Testing;
 using Xunit;
-using static BNBParty.CodeGen.Generated.Types;
+using static BNBParty.GraphQLClient.Generated.Types;
 
 namespace BNBParty.GraphQLClient.Tests
 {

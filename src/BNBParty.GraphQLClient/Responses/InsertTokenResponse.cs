@@ -1,4 +1,4 @@
-﻿using static BNBParty.CodeGen.Generated.Types;
+﻿using BNBParty.GraphQLClient.Generated;
 
 namespace BNBParty.GraphQLClient.Responses;
 
@@ -8,6 +8,6 @@ public class InsertTokenResponse
 
     public class DataType
     {
-        public NewToken InsertToken { get; set; } = null!;
+        public Types.NewToken InsertToken { get; set; } = null!;
     }
 }

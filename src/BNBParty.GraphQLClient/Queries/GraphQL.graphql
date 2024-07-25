@@ -1,0 +1,158 @@
+"""
+Tells the service this field/object has access authorized by an API key.
+"""
+directive @aws_api_key on FIELD_DEFINITION | OBJECT
+
+"""Directs the schema to enforce authorization on a field"""
+directive @aws_auth(
+  """List of cognito user pool groups which have access on this field"""
+  cognito_groups: [String]
+) on FIELD_DEFINITION
+
+"""
+Tells the service this field/object has access authorized by a Cognito User Pools token.
+"""
+directive @aws_cognito_user_pools(
+  """List of cognito user pool groups which have access on this field"""
+  cognito_groups: [String]
+) on FIELD_DEFINITION | OBJECT
+
+"""
+Tells the service this field/object has access authorized by sigv4 signing.
+"""
+directive @aws_iam on FIELD_DEFINITION | OBJECT
+
+"""
+Tells the service this field/object has access authorized by a Lambda Authorizer.
+"""
+directive @aws_lambda on FIELD_DEFINITION | OBJECT
+
+"""
+Tells the service this field/object has access authorized by an OIDC token.
+"""
+directive @aws_oidc on FIELD_DEFINITION | OBJECT
+
+"""
+Tells the service which subscriptions will be published to when this mutation is called. This directive is deprecated use @aws_susbscribe directive instead.
+"""
+directive @aws_publish(
+  """
+  List of subscriptions which will be published to when this mutation is called.
+  """
+  subscriptions: [String]
+) on FIELD_DEFINITION
+
+"""Tells the service which mutation triggers this subscription."""
+directive @aws_subscribe(
+  """
+  List of mutations which will trigger this subscription when they are called.
+  """
+  mutations: [String]
+) on FIELD_DEFINITION
+
+"""This directive allows results to be deferred during execution"""
+directive @defer on FIELD
+
+type Comment {
+  commentId: Int!
+  content: String!
+  createdAt: String!
+  icon: String
+  likeCounter: Int!
+  tokenId: Int!
+  userAddress: String!
+}
+
+type Comments {
+  commentsCount: Int!
+  items: [Comment!]
+}
+
+"""Long type"""
+scalar Long
+
+type Mutation {
+  """  if commentId == null, then it's for tokenID, the commentID must match the tokenID
+  """
+  addComment(content: String!, icon: String, tokenId: Int!): Comment!
+
+  """  add AuthToken to DynamoDB with user address"""
+  deleteAuth(sign: String!): Boolean!
+  generateAuth(message: String!, sign: String!): String!
+
+  """  set deleted = true the AuthToken from DynamoDB for self"""
+  insertToken(chainID: Long!, txHash: String!): NewToken!
+
+  """  only makerAddress of the token"""
+  likeComment(commentId: Int!, tokenId: Int!): Int!
+  likeToken(tokenId: Int!): Int!
+
+  """  public for bot, still validate TX and not exist"""
+  updateTokenContent(offChainData: OffChainDataInput!, tokenId: Int!): Token!
+}
+
+type NewToken {
+  isNew: Boolean!
+  tokenId: Int!
+}
+
+type OffChainData {
+  Discord: String
+  Telegram: String
+  Website: String
+  X: String
+  content: String
+  icon: String
+  likeCounter: Int!
+}
+
+input OffChainDataInput {
+  Discord: String
+  Telegram: String
+  Website: String
+  X: String
+  content: String
+  icon: String
+}
+
+type Query {
+  countTokens: Int!
+  getComment(limit: Int!, page: Int!, tokenId: Int!): Comments!
+  getToken(tokenId: Int!): Token
+  getTokenByTokenAddress(chainId: Long!, tokenAddress: String!): Token
+  getTokenHolders(chainId: Long!, tokenAddress: String!): [UserBalance!]
+  listMyTokens(limit: Int!, page: Int!): [Token!]
+  listTokensByDate(limit: Int!, page: Int!): [Token!]!
+  listTokensByLike(limit: Int!, page: Int!): [Token!]!
+  myAddress: String!
+}
+
+type Subscription {
+  """  both for createToken and insertToken"""
+  likeComment(commentID: Int!, tokenId: Int!): Int
+  likeToken(tokenId: Int!): Int
+
+  """  used only on updateTokenContent"""
+  newComment(tokenId: Int!): Comment
+
+  """  for each Token"""
+  newToken: NewToken
+  tokenUpdated(tokenId: Int!): Token
+}
+
+type Token {
+  Block: Int!
+  chainId: Long!
+  createdAt: String!
+  creationTransaction: String!
+  flpAddress: String!
+  makerAddress: String!
+  offChainData: OffChainData!
+  tokenAddress: String!
+  tokenId: Int!
+}
+
+type UserBalance {
+  address: String!
+  bigIntAmount: String!
+}

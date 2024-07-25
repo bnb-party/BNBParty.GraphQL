@@ -1,0 +1,6 @@
+mutation InsertToken($chainId: Long!, $txHash: String!) {
+  insertToken(chainID: $chainId, txHash: $txHash) {
+    tokenId
+    isNew
+  }
+}
