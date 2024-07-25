@@ -1,4 +1,4 @@
-﻿using static BNBParty.CodeGen.Generated.Types;
+﻿using BNBParty.GraphQLClient.Generated;
 
 namespace BNBParty.GraphQLClient.Responses
 {
@@ -8,7 +8,7 @@ namespace BNBParty.GraphQLClient.Responses
 
         public class DataType
         {
-            public Token GetToken { get; set; } = null!;
+            public Types.Token GetToken { get; set; } = null!;
         }
     }
 }

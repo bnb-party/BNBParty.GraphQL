@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using BNBParty.GraphQLClient.Responses;
 using Flurl.Http;
 using Newtonsoft.Json;
-using static BNBParty.CodeGen.Generated.Types;
+using static BNBParty.GraphQLClient.Generated.Types;
 
 namespace BNBParty.GraphQLClient
 {

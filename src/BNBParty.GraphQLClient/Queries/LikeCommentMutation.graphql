@@ -1,0 +1,3 @@
+mutation LikeComment($commentId: Int!, $tokenId: Int!) {
+  likeComment(commentId: $commentId, tokenId: $tokenId)
+}

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using BNBParty.GraphQLClient.Generated;
 
 namespace BNBParty.GraphQLClient.Services;
 
@@ -6,8 +7,8 @@ public static class GraphQlQueryLoader
 {
     public static string LoadQuery(string queryFileName)
     {
-        var assembly = typeof(CodeGen.Generated.Types.Query).Assembly;
-        var resourceName = $"BNBParty.CodeGen.Queries.{queryFileName}";
+        var assembly = typeof(Types.Query).Assembly;
+        var resourceName = $"BNBParty.GraphQLClient.Queries.{queryFileName}";
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)
@@ -19,8 +20,8 @@ public static class GraphQlQueryLoader
 
     public static string LoadMutation(string mutationFileName)
     {
-        var assembly = typeof(CodeGen.Generated.Types.Mutation).Assembly;
-        var resourceName = $"BNBParty.CodeGen.Queries.{mutationFileName}";
+        var assembly = typeof(Types.Mutation).Assembly;
+        var resourceName = $"BNBParty.GraphQLClient.Queries.{mutationFileName}";
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
         if (stream == null)

@@ -1,0 +1,3 @@
+mutation GenerateAuth($message: String!, $sign: String!) {
+  generateAuth(message: $message, sign: $sign)
+}
