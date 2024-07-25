@@ -14,4 +14,18 @@
     <PackageReference Include="Utils.EnvironmentManager" Version="3.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="Queries\AddCommentMutation.graphql" />
+    <EmbeddedResource Include="Queries\CountTokensQuery.graphql" />
+    <EmbeddedResource Include="Queries\DeleteAuthMutation.graphql" />
+    <EmbeddedResource Include="Queries\GenerateAuthMutation.graphql" />
+    <EmbeddedResource Include="Queries\GetCommentQuery.graphql" />
+    <EmbeddedResource Include="Queries\GetTokenByTokenAddressQuery.graphql" />
+    <EmbeddedResource Include="Queries\GetTokenHoldersQuery.graphql" />
+    <EmbeddedResource Include="Queries\GetTokenQuery.graphql" />
+    <EmbeddedResource Include="Queries\InsertTokenMutation.graphql" />
+    <EmbeddedResource Include="Queries\MyAddressQuery.graphql" />
+    <EmbeddedResource Include="Queries\UpdateTokenContentMutation.graphql" />
+  </ItemGroup>
+
 </Project>

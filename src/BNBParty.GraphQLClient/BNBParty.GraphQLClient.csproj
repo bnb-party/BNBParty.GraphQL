@@ -1,14 +1,44 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PackageId>BNBParty.GraphQLClient</PackageId>
+    <Title>GraphQL Client for BNBParty .NET</Title>
+    <Version>1.0.0</Version>
+    <Authors>darkarki83</Authors>
+    <Company>The-Poolz</Company>
+    <Product>GraphQL Client for BNBParty .NET</Product>
+    <Copyright>Copyright @ darkarki83 The-Poolz 2024</Copyright>
+    <PackageProjectUrl>https://github.com/bnb-party/BNBParty.GraphQL/tree/master</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/bnb-party/BNBParty.GraphQL/tree/master</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>GraphQL, BNBParty, .NET, Handler, Utils, Utility</PackageTags>
+    <PackageReleaseNotes>
+      Release Notes for BNBParty.GraphQLClient v1.0.0:
+      - Initial release of the GraphQL client for BNBParty.
+      - Provides functionality for interacting with BNBParty GraphQL endpoints.
+      - Integrated utilities for efficient GraphQL query and mutation management.
+      - Built for .NET with extensibility and ease of use in mind.
+
+      Please refer to our documentation for detailed usage instructions and best practices.
+    </PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Description>GraphQL Client for BNBParty .NET</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Include="LICENSE.txt" Pack="true" PackagePath="" />
+      <None Include="README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="4.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Net.Web3.EthereumWallet" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup>

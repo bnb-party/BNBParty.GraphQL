@@ -1,11 +1,11 @@
 ﻿namespace BNBParty.GraphQLClient.Responses;
 
-public class GenerateAuthResponse
+public class DeleteAuthResponse
 {
     public Data data { get; set; }
 
     public class Data
     {
-        public string generateAuth { get; set; }
+        public bool deleteAuth { get; set; }
     }
 }
