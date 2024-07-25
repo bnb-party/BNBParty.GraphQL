@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BNBParty.GraphQLClient.Models;
 using BNBParty.GraphQLClient.Responses;
 using Flurl.Http;
 using Newtonsoft.Json;
@@ -133,6 +134,21 @@ namespace BNBParty.GraphQLClient
             };
 
             return await QueryAsync<UpdateTokenContentResponse>(mutation, variables);
+        }
+
+        public static string GenerateMessage(string accountAddress, long chainId)
+        {
+            var issuedAtDateTime = DateTimeOffset.UtcNow;
+
+            var domain = GraphQlClientConfig.Domain;
+            var terms = GraphQlClientConfig.Terms;
+            var uri = GraphQlClientConfig.Uri;
+            var version = GraphQlClientConfig.Version;
+            var nonce = $"Nonce: {issuedAtDateTime.ToUnixTimeMilliseconds()}";
+            var issuedAt = $"Issued At: {issuedAtDateTime}";
+            var expirationTime = $"Expiration Time: {issuedAtDateTime.AddDays(1)}";
+
+            return $"{domain}\n{accountAddress}\n\n{terms}\n\n{uri}\n{version}\nChain ID: {chainId}\n{nonce}\n{issuedAt}\n{expirationTime}";
         }
     }
 }
