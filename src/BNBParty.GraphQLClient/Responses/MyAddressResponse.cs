@@ -2,10 +2,10 @@
 
 public class MyAddressResponse
 {
-    public Data data { get; set; }
+    public DataType? Data { get; set; }
 
-    public class Data
+    public class DataType
     {
-        public string myAddress { get; set; }
+        public string MyAddress { get; set; } = null!;
     }
 }

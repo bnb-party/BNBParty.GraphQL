@@ -8,7 +8,6 @@ namespace BNBParty.GraphQLClient.Tests
     public class GraphQlClientTests
     {
         private const string Endpoint = "https://test/graphql";
-        private const string ApiKey = "test";
 
         private GraphQlClient CreateClient()
         {
@@ -53,9 +52,9 @@ namespace BNBParty.GraphQLClient.Tests
 
                 var result = await client.GetTokenAsync(tokenId);
 
-                result.data.getToken.Should().NotBeNull();
-                result.data.getToken.tokenId.Should().Be(3);
-                result.data.getToken.tokenAddress.Should().Be("0x9c853178CD5d73b1B50dfE19d6784858c7617bE7");
+                result.Data!.GetToken.Should().NotBeNull();
+                result.Data.GetToken.tokenId.Should().Be(3);
+                result.Data.GetToken.tokenAddress.Should().Be("0x9c853178CD5d73b1B50dfE19d6784858c7617bE7");
             }
         }
 
@@ -81,9 +80,9 @@ namespace BNBParty.GraphQLClient.Tests
 
             var result = await client.InsertTokenAsync(chainId, txHash);
 
-            result.data.insertToken.Should().NotBeNull();
-            result.data.insertToken.tokenId.Should().Be(123);
-            result.data.insertToken.isNew.Should().Be(true);
+            result.Data!.InsertToken.Should().NotBeNull();
+            result.Data.InsertToken.tokenId.Should().Be(123);
+            result.Data.InsertToken.isNew.Should().Be(true);
         }
 
         [Fact]
@@ -112,7 +111,7 @@ namespace BNBParty.GraphQLClient.Tests
 
             var result = await client.GenerateAuthAsync(sign, message);
 
-            result.data.generateAuth.Should().Be("auth_token");
+            result.Data!.GenerateAuth.Should().Be("auth_token");
         }
 
         [Fact]
@@ -120,20 +119,6 @@ namespace BNBParty.GraphQLClient.Tests
         {
             using var httpTest = new HttpTest();
             var client = CreateClient();
-            var token = new Token
-            {
-                tokenId = 123,
-                offChainData = new OffChainData
-                {
-                    content = "new content",
-                    icon = "new icon",
-                    likeCounter = 10,
-                    Discord = "discord_link",
-                    Telegram = "telegram_link",
-                    Website = "website_link",
-                    X = "x_link"
-                }
-            };
             var response = new
             {
                 data = new
@@ -154,14 +139,25 @@ namespace BNBParty.GraphQLClient.Tests
                     }
                 }
             };
+            var tokenId = 1;
+            var offChainData = new OffChainData
+            {
+                content = "new content",
+                icon = "new icon",
+                likeCounter = 10,
+                Discord = "discord_link",
+                Telegram = "telegram_link",
+                Website = "website_link",
+                X = "x_link"
+            };
             httpTest.RespondWithJson(response);
 
-            var result = await client.UpdateTokenContentAsync(token);
+            var result = await client.UpdateTokenContentAsync(tokenId, offChainData);
 
-            result.data.updateTokenContent.Should().NotBeNull();
-            result.data.updateTokenContent.tokenId.Should().Be(123);
-            result.data.updateTokenContent.offChainData.content.Should().Be("new content");
-            result.data.updateTokenContent.offChainData.icon.Should().Be("new icon");
+            result.Data!.UpdateTokenContent.Should().NotBeNull();
+            result.Data.UpdateTokenContent.tokenId.Should().Be(123);
+            result.Data.UpdateTokenContent.offChainData.content.Should().Be("new content");
+            result.Data.UpdateTokenContent.offChainData.icon.Should().Be("new icon");
         }
 
         [Fact]

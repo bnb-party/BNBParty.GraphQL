@@ -4,11 +4,11 @@ namespace BNBParty.GraphQLClient.Responses
 {
     public class GetTokenResponse
     {
-        public Data data { get; set; }
+        public DataType? Data { get; set; }
 
-        public class Data
+        public class DataType
         {
-            public Token getToken { get; set; }
+            public Token GetToken { get; set; } = null!;
         }
     }
 }

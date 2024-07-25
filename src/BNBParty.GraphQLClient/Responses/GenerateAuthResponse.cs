@@ -2,10 +2,10 @@
 
 public class GenerateAuthResponse
 {
-    public Data data { get; set; }
+    public DataType? Data { get; set; }
 
-    public class Data
+    public class DataType
     {
-        public string generateAuth { get; set; }
+        public string GenerateAuth { get; set; } = null!;
     }
 }

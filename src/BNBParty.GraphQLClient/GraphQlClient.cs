@@ -55,13 +55,13 @@ namespace BNBParty.GraphQLClient
 
             var authResponse = await QueryAsync<GenerateAuthResponse>(mutation, variables);
 
-            if (authResponse?.data == null || authResponse.data.generateAuth != sign)
+            if (authResponse.Data!.GenerateAuth != sign)
             {
                 Console.WriteLine("Login failed, address is zero.");
                 return false;
             }
 
-            _authKey = authResponse.data.generateAuth;
+            _authKey = authResponse.Data.GenerateAuth;
             return true;
         }
 
@@ -72,7 +72,7 @@ namespace BNBParty.GraphQLClient
 
             var response = await QueryAsync<DeleteAuthResponse>(mutation, variables);
 
-            if (response.data.deleteAuth)
+            if (response.Data!.DeleteAuth)
             {
                 _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
                 Console.WriteLine("Logged out successfully.");
@@ -106,7 +106,7 @@ namespace BNBParty.GraphQLClient
 
             var query = Services.GraphQlQueryLoader.LoadQuery("MyAddressQuery.graphql");
             var addressResponse = await QueryAsync<MyAddressResponse>(query, null);
-            if (addressResponse.data.myAddress == Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress)
+            if (addressResponse.Data!.MyAddress == Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress)
             {
                 Console.WriteLine("Login failed, address is zero.");
             }
@@ -114,21 +114,21 @@ namespace BNBParty.GraphQLClient
             return response;
         }
 
-        public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(Token token)
+        public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainData offChainData)
         {
             var mutation = Services.GraphQlQueryLoader.LoadMutation("UpdateTokenContentMutation.graphql");
             var variables = new
             {
-                token.tokenId,
+                tokenId,
                 offChainData = new
                 {
-                    token.offChainData.content,
-                    token.offChainData.icon,
-                    token.offChainData.likeCounter,
-                    token.offChainData.Discord,
-                    token.offChainData.Telegram,
-                    token.offChainData.Website,
-                    token.offChainData.X
+                    offChainData.content,
+                    offChainData.icon,
+                    offChainData.likeCounter,
+                    offChainData.Discord,
+                    offChainData.Telegram,
+                    offChainData.Website,
+                    offChainData.X
                 }
             };
 
