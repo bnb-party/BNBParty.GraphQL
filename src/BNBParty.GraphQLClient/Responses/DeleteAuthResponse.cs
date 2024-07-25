@@ -2,10 +2,10 @@
 
 public class DeleteAuthResponse
 {
-    public Data data { get; set; }
+    public DataType? Data { get; set; }
 
-    public class Data
+    public class DataType
     {
-        public bool deleteAuth { get; set; }
+        public bool DeleteAuth { get; set; }
     }
 }

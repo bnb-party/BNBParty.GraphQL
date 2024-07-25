@@ -6,7 +6,7 @@ public static class GraphQlQueryLoader
 {
     public static string LoadQuery(string queryFileName)
     {
-        var assembly = typeof(BNBParty.CodeGen.Generated.Types.Query).Assembly;
+        var assembly = typeof(CodeGen.Generated.Types.Query).Assembly;
         var resourceName = $"BNBParty.CodeGen.Queries.{queryFileName}";
 
         using var stream = assembly.GetManifestResourceStream(resourceName);
@@ -19,7 +19,7 @@ public static class GraphQlQueryLoader
 
     public static string LoadMutation(string mutationFileName)
     {
-        var assembly = typeof(BNBParty.CodeGen.Generated.Types.Mutation).Assembly;
+        var assembly = typeof(CodeGen.Generated.Types.Mutation).Assembly;
         var resourceName = $"BNBParty.CodeGen.Queries.{mutationFileName}";
 
         using var stream = assembly.GetManifestResourceStream(resourceName);

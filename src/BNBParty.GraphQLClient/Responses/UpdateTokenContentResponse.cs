@@ -4,10 +4,10 @@ namespace BNBParty.GraphQLClient.Responses;
 
 public class UpdateTokenContentResponse
 {
-    public Data data { get; set; }
+    public DataType? Data { get; set; }
 
-    public class Data
+    public class DataType
     {
-        public Token updateTokenContent { get; set; }
+        public Token UpdateTokenContent { get; set; } = null!;
     }
 }
