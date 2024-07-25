@@ -55,7 +55,7 @@ namespace BNBParty.GraphQLClient
 
             var authResponse = await QueryAsync<GenerateAuthResponse>(mutation, variables);
 
-            if (authResponse.data.generateAuth != sign)
+            if (authResponse?.data == null || authResponse.data.generateAuth != sign)
             {
                 Console.WriteLine("Login failed, address is zero.");
                 return false;

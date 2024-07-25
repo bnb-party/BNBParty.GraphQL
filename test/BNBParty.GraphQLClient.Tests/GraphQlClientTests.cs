@@ -12,7 +12,7 @@ namespace BNBParty.GraphQLClient.Tests
 
         private GraphQlClient CreateClient()
         {
-            return new GraphQlClient(Endpoint, ApiKey);
+            return new GraphQlClient(Endpoint);
         }
 
         [Fact]
@@ -163,5 +163,83 @@ namespace BNBParty.GraphQLClient.Tests
             result.data.updateTokenContent.offChainData.content.Should().Be("new content");
             result.data.updateTokenContent.offChainData.icon.Should().Be("new icon");
         }
+
+        [Fact]
+        public async Task LoginAsync_ShouldReturnTrue_WhenLoginIsSuccessful()
+        {
+            using var httpTest = new HttpTest();
+            var client = CreateClient();
+            var sign = "someSign";
+            var message = "someMessage";
+            var authResponse = new
+            {
+                data = new
+                {
+                    generateAuth = "someSign"
+                }
+            };
+
+            httpTest
+                .ForCallsTo("https://test/graphql")
+                .RespondWithJson(authResponse);
+
+            var result = await client.LoginAsync(sign, message);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task LoginAsync_ShouldReturnFalse_WhenLoginFails()
+        {
+            using var httpTest = new HttpTest();
+            var client = CreateClient();
+            var sign = "someSign";
+            var message = "someMessage";
+            var authResponse = new
+            {
+                data = new
+                {
+                    generateAuth = "wrong_auth_token"
+                }
+            };
+            var addressResponse = new
+            {
+                data = new
+                {
+                    myAddress = "0x0000000000000000000000000000000000000000"
+                }
+            };
+
+            httpTest
+                .ForCallsTo("https://test/graphql")
+                .RespondWithJson(authResponse)
+                .RespondWithJson(addressResponse);
+
+            var result = await client.LoginAsync(sign, message);
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task LogoutAsync_ShouldReturnTrue_WhenLogoutIsSuccessful()
+        {
+            using var httpTest = new HttpTest();
+            var client = CreateClient();
+            var sign = "someSign";
+            var response = new
+            {
+                data = new
+                {
+                    deleteAuth = true
+                }
+            };
+
+            httpTest.RespondWithJson(response);
+
+            var result = await client.LogoutAsync(sign);
+
+            result.Should().BeTrue();
+        }
+
     }
 }
