@@ -114,7 +114,7 @@ public class GraphQlClient
         return response;
     }
 
-    public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainData offChainData)
+    public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainDataInput offChainData)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("UpdateTokenContentMutation.graphql");
         var variables = new
@@ -124,7 +124,6 @@ public class GraphQlClient
             {
                 offChainData.content,
                 offChainData.icon,
-                offChainData.likeCounter,
                 offChainData.Discord,
                 offChainData.Telegram,
                 offChainData.Website,
