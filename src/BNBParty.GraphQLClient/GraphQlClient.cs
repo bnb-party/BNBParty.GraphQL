@@ -134,7 +134,7 @@ public class GraphQlClient
         return await QueryAsync<UpdateTokenContentResponse>(mutation, variables);
     }
 
-    public static string GenerateMessage(string accountAddress, long chainId)
+    public string GenerateMessage(string accountAddress, long chainId)
     {
         var issuedAtDateTime = DateTimeOffset.UtcNow;
 
