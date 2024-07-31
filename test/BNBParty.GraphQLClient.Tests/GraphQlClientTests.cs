@@ -140,11 +140,10 @@ namespace BNBParty.GraphQLClient.Tests
                 }
             };
             var tokenId = 1;
-            var offChainData = new OffChainData
+            var offChainData = new OffChainDataInput
             {
                 content = "new content",
                 icon = "new icon",
-                likeCounter = 10,
                 Discord = "discord_link",
                 Telegram = "telegram_link",
                 Website = "website_link",
