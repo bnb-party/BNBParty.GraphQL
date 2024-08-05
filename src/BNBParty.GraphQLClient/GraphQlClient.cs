@@ -29,7 +29,7 @@ public class GraphQlClient
         try
         {
             var response = await _endpoint
-                .WithOAuthBearerToken(_authKey)
+                .WithHeader("Authorization", _authKey)
                 .PostJsonAsync(requestContent)
                 .ReceiveString();
 
@@ -83,6 +83,13 @@ public class GraphQlClient
         return false;
     }
 
+    public async Task<MyAddressResponse> GetMyAddressAsync()
+    {
+        var query = Services.GraphQlQueryLoader.LoadQuery("MyAddressQuery.graphql");
+
+        return await QueryAsync<MyAddressResponse>(query, null);
+    }
+
     public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
     {
         var query = Services.GraphQlQueryLoader.LoadQuery("GetTokenQuery.graphql");
@@ -114,7 +121,7 @@ public class GraphQlClient
         return response;
     }
 
-    public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainDataInput offChainData)
+    public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainDataInput offChainDataInput)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("UpdateTokenContentMutation.graphql");
         var variables = new
@@ -122,12 +129,12 @@ public class GraphQlClient
             tokenId,
             offChainData = new
             {
-                offChainData.content,
-                offChainData.icon,
-                offChainData.Discord,
-                offChainData.Telegram,
-                offChainData.Website,
-                offChainData.X
+                offChainDataInput.content,
+                offChainDataInput.icon,
+                offChainDataInput.Discord,
+                offChainDataInput.Telegram,
+                offChainDataInput.Website,
+                offChainDataInput.X
             }
         };
 
