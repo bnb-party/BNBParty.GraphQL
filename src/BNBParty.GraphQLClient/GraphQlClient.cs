@@ -90,7 +90,6 @@ public class GraphQlClient
         return await QueryAsync<MyAddressResponse>(query, null);
     }
 
-
     public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
     {
         var query = Services.GraphQlQueryLoader.LoadQuery("GetTokenQuery.graphql");
