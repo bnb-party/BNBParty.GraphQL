@@ -2,6 +2,7 @@ query GetTokenByTokenAddress($chainId: Long!, $tokenAddress: String!) {
   getTokenByTokenAddress(chainId: $chainId, tokenAddress: $tokenAddress) {
     tokenId
     tokenAddress
+    partyFactoryAddress
     chainId
     makerAddress
     flpAddress

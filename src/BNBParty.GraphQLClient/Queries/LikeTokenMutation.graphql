@@ -1,3 +1,22 @@
 mutation LikeToken($tokenId: Int!) {
-  likeToken(tokenId: $tokenId)
+  likeToken(tokenId: $tokenId) {
+    tokenId
+    tokenAddress
+    partyFactoryAddress
+    chainId
+    makerAddress
+    flpAddress
+    creationTransaction
+    createdAt
+    Block
+    offChainData {
+      content
+      icon
+      Website
+      X
+      Discord
+      Telegram
+      likeCounter
+    }
+  }
 }

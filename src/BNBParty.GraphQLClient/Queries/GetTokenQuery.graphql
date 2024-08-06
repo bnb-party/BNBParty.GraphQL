@@ -2,6 +2,7 @@ query GetToken($tokenId: Int!) {
   getToken(tokenId: $tokenId) {
     tokenId
     tokenAddress
+    partyFactoryAddress
     chainId
     makerAddress
     flpAddress

@@ -1,7 +1,8 @@
-query ListTokensByLike($limit: Int!, $page: Int!) {
-  listTokensByLike(limit: $limit, page: $page) {
+query ListTokensByLike($chainId: Long!, $limit: Int!, $page: Int!) {
+  listTokensByLike(chainId: $chainId, limit: $limit, page: $page) {
     tokenId
     tokenAddress
+    partyFactoryAddress
     chainId
     makerAddress
     flpAddress

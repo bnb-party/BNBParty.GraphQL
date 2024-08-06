@@ -45,42 +45,56 @@ namespace BNBParty.CodeGen.Generated {
     }
     #endregion
     
+    public interface IUser {
+      [JsonProperty("Discord")]
+      string Discord { get; set; }
+    
+      [JsonProperty("Telegram")]
+      string Telegram { get; set; }
+    
+      [JsonProperty("X")]
+      string X { get; set; }
+    
+      [JsonProperty("aboutMe")]
+      string aboutMe { get; set; }
+    
+      [JsonProperty("address")]
+      string address { get; set; }
+    
+      [JsonProperty("avatarUrl")]
+      string avatarUrl { get; set; }
+    
+      [JsonProperty("userName")]
+      string userName { get; set; }
+    }
+    
     #region Mutation
     public class Mutation {
       #region members
-      /// <summary>
-      /// if commentId == null, then it's for tokenID, the commentID must match the tokenID
-      /// </summary>
       [JsonProperty("addComment")]
       public Comment addComment { get; set; }
     
-      /// <summary>
-      /// add AuthToken to DynamoDB with user address
-      /// </summary>
       [JsonProperty("deleteAuth")]
       public bool deleteAuth { get; set; }
     
       [JsonProperty("generateAuth")]
       public string generateAuth { get; set; }
     
-      /// <summary>
-      /// set deleted = true the AuthToken from DynamoDB for self
-      /// </summary>
       [JsonProperty("insertToken")]
       public NewToken insertToken { get; set; }
     
-      /// <summary>
-      /// only makerAddress of the token
-      /// </summary>
       [JsonProperty("likeComment")]
       public Comment likeComment { get; set; }
     
       [JsonProperty("likeToken")]
       public Token likeToken { get; set; }
     
-      /// <summary>
-      /// public for bot, still validate TX and not exist
-      /// </summary>
+      [JsonProperty("myFollowOn")]
+      public UserWithFollowersAndFollowings myFollowOn { get; set; }
+    
+      [JsonProperty("updateMyData")]
+      public UserWithFollowersAndFollowings updateMyData { get; set; }
+    
       [JsonProperty("updateTokenContent")]
       public Token updateTokenContent { get; set; }
       #endregion
@@ -172,8 +186,14 @@ namespace BNBParty.CodeGen.Generated {
       [JsonProperty("countTokens")]
       public int countTokens { get; set; }
     
+      [JsonProperty("getCoinsCreated")]
+      public List<Token> getCoinsCreated { get; set; }
+    
       [JsonProperty("getComment")]
       public Comments getComment { get; set; }
+    
+      [JsonProperty("getReplies")]
+      public List<Comment> getReplies { get; set; }
     
       [JsonProperty("getToken")]
       public Token getToken { get; set; }
@@ -183,6 +203,9 @@ namespace BNBParty.CodeGen.Generated {
     
       [JsonProperty("getTokenHolders")]
       public List<UserBalance> getTokenHolders { get; set; }
+    
+      [JsonProperty("getUserData")]
+      public UserWithFollowersAndFollowings getUserData { get; set; }
     
       [JsonProperty("listMyTokens")]
       public List<Token> listMyTokens { get; set; }
@@ -253,11 +276,41 @@ namespace BNBParty.CodeGen.Generated {
       [JsonProperty("offChainData")]
       public OffChainData offChainData { get; set; }
     
+      [JsonProperty("partyFactoryAddress")]
+      public string partyFactoryAddress { get; set; }
+    
       [JsonProperty("tokenAddress")]
       public string tokenAddress { get; set; }
     
       [JsonProperty("tokenId")]
       public int tokenId { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region User
+    public class User : IUser {
+      #region members
+      [JsonProperty("Discord")]
+      public string Discord { get; set; }
+    
+      [JsonProperty("Telegram")]
+      public string Telegram { get; set; }
+    
+      [JsonProperty("X")]
+      public string X { get; set; }
+    
+      [JsonProperty("aboutMe")]
+      public string aboutMe { get; set; }
+    
+      [JsonProperty("address")]
+      public string address { get; set; }
+    
+      [JsonProperty("avatarUrl")]
+      public string avatarUrl { get; set; }
+    
+      [JsonProperty("userName")]
+      public string userName { get; set; }
       #endregion
     }
     #endregion
@@ -270,6 +323,81 @@ namespace BNBParty.CodeGen.Generated {
     
       [JsonProperty("bigIntAmount")]
       public string bigIntAmount { get; set; }
+      #endregion
+    }
+    #endregion
+    
+    #region UserDataInput
+    public class UserDataInput {
+      #region members
+      public string Discord { get; set; }
+    
+      public string Telegram { get; set; }
+    
+      public string X { get; set; }
+    
+      public string aboutMe { get; set; }
+    
+      public string avatarUrl { get; set; }
+    
+      [Required]
+      [JsonRequired]
+      public string userName { get; set; }
+      #endregion
+    
+      #region methods
+      public dynamic GetInputObject()
+      {
+        IDictionary<string, object> d = new System.Dynamic.ExpandoObject();
+    
+        var properties = GetType().GetProperties(System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public);
+        foreach (var propertyInfo in properties)
+        {
+          var value = propertyInfo.GetValue(this);
+          var defaultValue = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+    
+          var requiredProp = propertyInfo.GetCustomAttributes(typeof(JsonRequiredAttribute), false).Length > 0;
+    
+          if (requiredProp || value != defaultValue)
+          {
+            d[propertyInfo.Name] = value;
+          }
+        }
+        return d;
+      }
+      #endregion
+    }
+    #endregion
+    
+    #region UserWithFollowersAndFollowings
+    public class UserWithFollowersAndFollowings : IUser {
+      #region members
+      [JsonProperty("Discord")]
+      public string Discord { get; set; }
+    
+      [JsonProperty("Telegram")]
+      public string Telegram { get; set; }
+    
+      [JsonProperty("X")]
+      public string X { get; set; }
+    
+      [JsonProperty("aboutMe")]
+      public string aboutMe { get; set; }
+    
+      [JsonProperty("address")]
+      public string address { get; set; }
+    
+      [JsonProperty("avatarUrl")]
+      public string avatarUrl { get; set; }
+    
+      [JsonProperty("followers")]
+      public List<User> followers { get; set; }
+    
+      [JsonProperty("followings")]
+      public List<User> followings { get; set; }
+    
+      [JsonProperty("userName")]
+      public string userName { get; set; }
       #endregion
     }
     #endregion

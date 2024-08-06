@@ -1,14 +1,22 @@
-mutation UpdateTokenContent($tokenId: Int!, $offChainData: OffChainDataInput!) {
-  updateTokenContent(tokenId: $tokenId, offChainData: $offChainData) {
+mutation UpdateTokenContent($offChainData: OffChainDataInput!, $tokenId: Int!) {
+  updateTokenContent(offChainData: $offChainData, tokenId: $tokenId) {
     tokenId
+    tokenAddress
+    partyFactoryAddress
+    chainId
+    makerAddress
+    flpAddress
+    creationTransaction
+    createdAt
+    Block
     offChainData {
       content
       icon
-      likeCounter
-      Discord
-      Telegram
       Website
       X
+      Discord
+      Telegram
+      likeCounter
     }
   }
 }

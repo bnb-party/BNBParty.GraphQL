@@ -1,0 +1,29 @@
+query GetUserData($address: String!) {
+  getUserData(address: $address) {
+    address
+    userName
+    avatarUrl
+    aboutMe
+    X
+    Discord
+    Telegram
+    followers {
+      address
+      userName
+      avatarUrl
+      aboutMe
+      X
+      Discord
+      Telegram
+    }
+    followings {
+      address
+      userName
+      avatarUrl
+      aboutMe
+      X
+      Discord
+      Telegram
+    }
+  }
+}

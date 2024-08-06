@@ -1,5 +1,5 @@
-query GetToken($tokenId: Int!) {
-  getToken(tokenId: $tokenId) {
+query GetCoinsCreated($address: String!, $chainId: Long!) {
+  getCoinsCreated(address: $address, chainId: $chainId) {
     tokenId
     tokenAddress
     partyFactoryAddress

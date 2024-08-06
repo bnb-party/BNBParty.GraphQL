@@ -1,7 +1,8 @@
-query ListMyTokens($limit: Int!, $page: Int!) {
-  listMyTokens(limit: $limit, page: $page) {
+query ListMyTokens($chainId: Long!, $limit: Int!, $page: Int!) {
+  listMyTokens(chainId: $chainId, limit: $limit, page: $page) {
     tokenId
     tokenAddress
+    partyFactoryAddress
     chainId
     makerAddress
     flpAddress
