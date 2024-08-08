@@ -1,7 +1,7 @@
 {
   "name": "bnbparty.graphql",
   "version": "1.0.0",
-  "description": "",
+  "description": "BNBParty.GraphQL is a library for interacting with BNBParty.GraphQL project's GraphQL endpoint. It allows you to perform queries to the GraphQL server and retrieve data.",
   "main": "index.js",
   "directories": {
     "test": "test"

@@ -18,7 +18,7 @@ public class GraphQlClient
         _authKey = Net.Web3.EthereumWallet.EthereumAddress.ZeroAddress;
     }
 
-    public async Task<TResponse> QueryAsync<TResponse>(string query, object? variables)
+    public virtual async Task<TResponse> QueryAsync<TResponse>(string query, object? variables)
     {
         var requestContent = new
         {
@@ -48,7 +48,7 @@ public class GraphQlClient
         }
     }
 
-    public async Task<bool> LoginAsync(string sign, string message)
+    public virtual async Task<bool> LoginAsync(string sign, string message)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("GenerateAuthMutation.graphql");
         var variables = new { sign, message };
@@ -65,7 +65,7 @@ public class GraphQlClient
         return true;
     }
 
-    public async Task<bool> LogoutAsync(string sign)
+    public virtual async Task<bool> LogoutAsync(string sign)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("DeleteAuthMutation.graphql");
         var variables = new { sign };
@@ -83,28 +83,28 @@ public class GraphQlClient
         return false;
     }
 
-    public async Task<MyAddressResponse> GetMyAddressAsync()
+    public virtual async Task<MyAddressResponse> GetMyAddressAsync()
     {
         var query = Services.GraphQlQueryLoader.LoadQuery("MyAddressQuery.graphql");
 
         return await QueryAsync<MyAddressResponse>(query, null);
     }
 
-    public async Task<GetTokenResponse> GetTokenAsync(int tokenId)
+    public virtual async Task<GetTokenResponse> GetTokenAsync(int tokenId)
     {
         var query = Services.GraphQlQueryLoader.LoadQuery("GetTokenQuery.graphql");
         var variables = new { tokenId };
         return await QueryAsync<GetTokenResponse>(query, variables);
     }
 
-    public async Task<InsertTokenResponse> InsertTokenAsync(long chainId, string txHash)
+    public virtual async Task<InsertTokenResponse> InsertTokenAsync(long chainId, string txHash)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("InsertTokenMutation.graphql");
         var variables = new { chainId, txHash };
         return await QueryAsync<InsertTokenResponse>(mutation, variables);
     }
 
-    public async Task<GenerateAuthResponse> GenerateAuthAsync(string sign, string message)
+    public virtual async Task<GenerateAuthResponse> GenerateAuthAsync(string sign, string message)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("GenerateAuthMutation.graphql");
         var variables = new { sign, message };
@@ -121,7 +121,7 @@ public class GraphQlClient
         return response;
     }
 
-    public async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainDataInput offChainDataInput)
+    public virtual async Task<UpdateTokenContentResponse> UpdateTokenContentAsync(long tokenId, OffChainDataInput offChainDataInput)
     {
         var mutation = Services.GraphQlQueryLoader.LoadMutation("UpdateTokenContentMutation.graphql");
         var variables = new
@@ -141,7 +141,7 @@ public class GraphQlClient
         return await QueryAsync<UpdateTokenContentResponse>(mutation, variables);
     }
 
-    public string GenerateMessage(string accountAddress, long chainId)
+    public virtual string GenerateMessage(string accountAddress, long chainId)
     {
         var issuedAtDateTime = DateTimeOffset.UtcNow;
 

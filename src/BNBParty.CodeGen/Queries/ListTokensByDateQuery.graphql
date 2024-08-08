@@ -1,7 +1,8 @@
-query ListTokensByDate($limit: Int!, $page: Int!) {
-  listTokensByDate(limit: $limit, page: $page) {
+query ListTokensByDate($chainId: Long!, $limit: Int!, $page: Int!) {
+  listTokensByDate(chainId: $chainId, limit: $limit, page: $page) {
     tokenId
     tokenAddress
+    partyFactoryAddress
     chainId
     makerAddress
     flpAddress

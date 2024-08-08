@@ -1,0 +1,29 @@
+mutation UpdateMyData($userData: UserDataInput!) {
+  updateMyData(userData: $userData) {
+    address
+    userName
+    avatarUrl
+    aboutMe
+    X
+    Discord
+    Telegram
+    followers {
+      address
+      userName
+      avatarUrl
+      aboutMe
+      X
+      Discord
+      Telegram
+    }
+    followings {
+      address
+      userName
+      avatarUrl
+      aboutMe
+      X
+      Discord
+      Telegram
+    }
+  }
+}

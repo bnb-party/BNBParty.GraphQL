@@ -1,0 +1,11 @@
+query GetReplies($address: String!) {
+  getReplies(address: $address) {
+    commentId
+    content
+    createdAt
+    icon
+    likeCounter
+    tokenId
+    userAddress
+  }
+}

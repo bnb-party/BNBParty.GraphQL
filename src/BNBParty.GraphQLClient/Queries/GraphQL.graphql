@@ -68,26 +68,28 @@ type Comments {
   items: [Comment!]
 }
 
+interface IUser {
+  Discord: String
+  Telegram: String
+  X: String
+  aboutMe: String
+  address: String!
+  avatarUrl: String
+  userName: String!
+}
+
 """Long type"""
 scalar Long
 
 type Mutation {
-  """  if commentId == null, then it's for tokenID, the commentID must match the tokenID
-  """
   addComment(content: String!, icon: String, tokenId: Int!): Comment!
-
-  """  add AuthToken to DynamoDB with user address"""
   deleteAuth(sign: String!): Boolean!
   generateAuth(message: String!, sign: String!): String!
-
-  """  set deleted = true the AuthToken from DynamoDB for self"""
   insertToken(chainID: Long!, txHash: String!): NewToken!
-
-  """  only makerAddress of the token"""
-  likeComment(commentId: Int!, tokenId: Int!): Int!
-  likeToken(tokenId: Int!): Int!
-
-  """  public for bot, still validate TX and not exist"""
+  likeComment(commentId: Int!, tokenId: Int!): Comment!
+  likeToken(tokenId: Int!): Token!
+  myFollowOn(address: String!, follow: Boolean!): UserWithFollowersAndFollowings!
+  updateMyData(userData: UserDataInput!): UserWithFollowersAndFollowings!
   updateTokenContent(offChainData: OffChainDataInput!, tokenId: Int!): Token!
 }
 
@@ -117,20 +119,23 @@ input OffChainDataInput {
 
 type Query {
   countTokens: Int!
+  getCoinsCreated(address: String!, chainId: Long!): [Token!]!
   getComment(limit: Int!, page: Int!, tokenId: Int!): Comments!
+  getReplies(address: String!): [Comment!]!
   getToken(tokenId: Int!): Token
   getTokenByTokenAddress(chainId: Long!, tokenAddress: String!): Token
   getTokenHolders(chainId: Long!, tokenAddress: String!): [UserBalance!]
-  listMyTokens(limit: Int!, page: Int!): [Token!]
-  listTokensByDate(limit: Int!, page: Int!): [Token!]!
-  listTokensByLike(limit: Int!, page: Int!): [Token!]!
+  getUserData(address: String!): UserWithFollowersAndFollowings!
+  listMyTokens(chainId: Long!, limit: Int!, page: Int!): [Token!]
+  listTokensByDate(chainId: Long!, limit: Int!, page: Int!): [Token!]!
+  listTokensByLike(chainId: Long!, limit: Int!, page: Int!): [Token!]!
   myAddress: String!
 }
 
 type Subscription {
   """  both for createToken and insertToken"""
-  likeComment(commentID: Int!, tokenId: Int!): Int
-  likeToken(tokenId: Int!): Int
+  likedComment(commentID: Int!, tokenId: Int!): Comment
+  likedToken(tokenId: Int!): Token
 
   """  used only on updateTokenContent"""
   newComment(tokenId: Int!): Comment
@@ -148,11 +153,43 @@ type Token {
   flpAddress: String!
   makerAddress: String!
   offChainData: OffChainData!
+  partyFactoryAddress: String!
   tokenAddress: String!
   tokenId: Int!
+}
+
+type User implements IUser {
+  Discord: String
+  Telegram: String
+  X: String
+  aboutMe: String
+  address: String!
+  avatarUrl: String
+  userName: String!
 }
 
 type UserBalance {
   address: String!
   bigIntAmount: String!
+}
+
+input UserDataInput {
+  Discord: String
+  Telegram: String
+  X: String
+  aboutMe: String
+  avatarUrl: String
+  userName: String!
+}
+
+type UserWithFollowersAndFollowings implements IUser {
+  Discord: String
+  Telegram: String
+  X: String
+  aboutMe: String
+  address: String!
+  avatarUrl: String
+  followers: [User!]!
+  followings: [User!]!
+  userName: String!
 }
